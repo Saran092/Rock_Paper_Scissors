@@ -24,9 +24,27 @@
             ">
                 Scissors
             </button>
+            <button onclick ="
+                score.wins =0;
+                score.losses =0;
+                score.ties =0;
+                localStorage.removeItem('score');
+                alert('Score Reset!....');
+            ">
+                Reset Score
+            </button>
         </div>
         <script>
 
+            const score = JSON.parse(localStorage.getItem('score')); //JS Object
+            if(score === null)
+            {
+                score={
+                wins:0,
+                losses:0,
+                ties: 0
+                }
+            };
             function playGame(playerMove)
             {
                 
@@ -46,7 +64,7 @@
                 }
                 else if(computerMove === 'Scissor')
                 {
-                    result = 'You Win!..';
+                    result = 'You Win!';
                 }
             }
             if(playerMove === 'Paper')
@@ -80,7 +98,22 @@
                     result = 'Tie';
                 }
             }   
-            alert(`You Picked ${playerMove}.Compurter Picked ${computerMove}.${result}`);
+
+                if(result === 'You Win!')
+                {
+                    score.wins+=1;
+                }
+                else if(result === 'You Lose')
+                {
+                    score.losses+=1;
+                }
+                else if(result === 'Tie')
+                {
+                    score.ties +=1;
+                }
+            localStorage.setItem('score',JSON.stringify(score));//String
+            alert(`You Picked ${playerMove}.Compurter Picked ${computerMove}.${result}
+Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`);
             }
             
             function pickComputerMove()
